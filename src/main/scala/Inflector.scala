@@ -3,7 +3,6 @@ package com.mojolly.inflector
 import java.util.Locale.ENGLISH
 import scala.Some
 import annotation.tailrec
-import collection.mutable.ListBuffer
 
 trait Inflector {
 
@@ -97,10 +96,31 @@ trait Inflector {
 }
 
 trait InflectorImplicits {
-  
+
+  implicit def string2InflectorString(word: String) = new Inflector.InflectorString(word)
+  implicit def int2InflectorInt(number: Int) = new Inflector.InflectorInt(number)
+
 }
 
 object Inflector extends Inflector {
+
+  class InflectorString(word: String) {
+    def titleize = Inflector.titleize(word)
+    def humanize = Inflector.humanize(word)
+    def camelize = Inflector.camelize(word)
+    def pascalize = Inflector.pascalize(word)
+    def underscore = Inflector.underscore(word)
+    def capitalize = Inflector.capitalize(word)
+    def uncapitalize = Inflector.uncapitalize(word)
+    def ordinalize = Inflector.ordinalize(word)
+    def pluralize = Inflector.pluralize(word)
+    def singularize = Inflector.singularize(word)
+  }
+
+  class InflectorInt(number: Int) {
+    def ordinalize = Inflector.ordinalize(number)
+  }
+
   addPlural("$", "s")
   addPlural("s$", "s")
   addPlural("(ax|test)is$", "$1es")
