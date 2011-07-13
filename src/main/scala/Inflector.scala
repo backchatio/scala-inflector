@@ -1,4 +1,4 @@
-package com.mojolly.inflector
+package mojolly.inflector
 
 import java.util.Locale.ENGLISH
 import scala.Some

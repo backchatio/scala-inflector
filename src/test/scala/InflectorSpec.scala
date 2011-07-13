@@ -1,4 +1,4 @@
-package com.mojolly.inflector
+package mojolly.inflector
 
 import org.specs2.Specification
 import org.specs2.matcher.DataTables
@@ -192,7 +192,7 @@ class InflectorSpec extends Specification with DataTables { def is =
     "address"     !! "addresses"     |
     "case"        !! "cases"         |
     "stack"       !! "stacks"        |
-    "wish"       !! "wishes"        |
+    "wish"        !! "wishes"        |
     "fish"        !! "fish"          |
     "category"    !! "categories"    |
     "query"       !! "queries"       |
