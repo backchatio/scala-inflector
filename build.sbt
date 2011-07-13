@@ -1,9 +1,9 @@
 import com.github.oforero.sbtformatter.SbtFormatter._
 import com.github.oforero.sbtformatter.SbtFormatterSettings._
 
-name := "logback-akka"
+name := "scala-inflector"
 
-version := "1.1-SNAPSHOT"
+version := "1.1"
 
 organization := "com.mojolly.inflector"
 

@@ -8,7 +8,7 @@ trait Inflector {
 
   def titleize(word: String): String =
     """\b([a-z])""".r.replaceAllIn(humanize(underscore(word)), _.group(0).toUpperCase(ENGLISH))
-  def humanize(word: String): String = capitalize(word.replace("_", " "))
+  def humanize(word: String): String = capitalize(underscore(word).replace("_", " "))
   def camelize(word: String): String = {
     val w = pascalize(word)
     w.substring(0, 1).toLowerCase(ENGLISH) + w.substring(1)
@@ -94,12 +94,14 @@ trait Inflector {
 
 }
 
-trait InflectorImplicits {
+trait InflectorImports {
 
   implicit def string2InflectorString(word: String) = new Inflector.InflectorString(word)
   implicit def int2InflectorInt(number: Int) = new Inflector.InflectorInt(number)
 
 }
+
+object InflectorImports extends InflectorImports
 
 object Inflector extends Inflector {
 
@@ -109,7 +111,6 @@ object Inflector extends Inflector {
     def camelize = Inflector.camelize(word)
     def pascalize = Inflector.pascalize(word)
     def underscore = Inflector.underscore(word)
-    def capitalize = Inflector.capitalize(word)
     def uncapitalize = Inflector.uncapitalize(word)
     def ordinalize = Inflector.ordinalize(word)
     def pluralize = Inflector.pluralize(word)
