@@ -8,15 +8,15 @@ trait Inflector {
 
   def titleize(word: String): String =
     """\b([a-z])""".r.replaceAllIn(humanize(underscore(word)), _.group(0).toUpperCase(ENGLISH))
-  def humanize(word: String): String = capitalize(word.replace("_", " "))
+  def humanize(word: String): String = capitalize(underscore(word).replace("_", " "))
   def camelize(word: String): String = {
     val w = pascalize(word)
-    w.substring(0,1).toLowerCase(ENGLISH) + w.substring(1)
+    w.substring(0, 1).toLowerCase(ENGLISH) + w.substring(1)
   }
   def pascalize(word: String): String = {
     val lst = word.split("_").toList
-    (lst.headOption.map(s => s.substring(0,1).toUpperCase(ENGLISH) + s.substring(1)).get ::
-        lst.tail.map(s => s.substring(0, 1).toUpperCase + s.substring(1))).mkString("")
+    (lst.headOption.map(s ⇒ s.substring(0, 1).toUpperCase(ENGLISH) + s.substring(1)).get ::
+      lst.tail.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1))).mkString("")
   }
   def underscore(word: String): String = {
     val spacesPattern = "[-\\s]".r
@@ -24,11 +24,9 @@ trait Inflector {
     val secondPattern = "([a-z\\d])([A-Z])".r
     val replacementPattern = "$1_$2"
     spacesPattern.replaceAllIn(
-    secondPattern.replaceAllIn(
-      firstPattern.replaceAllIn(
-        word, replacementPattern
-      ), replacementPattern
-    ), "_").toLowerCase
+      secondPattern.replaceAllIn(
+        firstPattern.replaceAllIn(
+          word, replacementPattern), replacementPattern), "_").toLowerCase
   }
   def capitalize(word: String): String =
     word.substring(0, 1).toUpperCase(ENGLISH) + word.substring(1).toLowerCase(ENGLISH)
@@ -41,10 +39,10 @@ trait Inflector {
     if (nMod100 >= 11 && nMod100 <= 13) numberString + "th"
     else {
       (number % 10) match {
-        case 1 => numberString + "st"
-        case 2 => numberString + "nd"
-        case 3 => numberString + "rd"
-        case _ => numberString + "th"
+        case 1 ⇒ numberString + "st"
+        case 2 ⇒ numberString + "nd"
+        case 3 ⇒ numberString + "rd"
+        case _ ⇒ numberString + "th"
       }
     }
   }
@@ -64,14 +62,15 @@ trait Inflector {
         None
       } else {
         val m = regex.replaceAllIn(word, replacement)
-        if(m == null || m.trim.isEmpty) None
+        if (m == null || m.trim.isEmpty) None
         else Some(m)
       }
     }
   }
   private implicit def tuple2Rule(pair: (String, String)) = Rule(pair)
 
-  @tailrec private def applyRules(collection: List[Rule], word: String): String = {
+  @tailrec
+  private def applyRules(collection: List[Rule], word: String): String = {
     if (uncountables.contains(word.toLowerCase(ENGLISH))) word
     else {
       val m = collection.head(word)
@@ -95,12 +94,14 @@ trait Inflector {
 
 }
 
-trait InflectorImplicits {
+trait InflectorImports {
 
   implicit def string2InflectorString(word: String) = new Inflector.InflectorString(word)
   implicit def int2InflectorInt(number: Int) = new Inflector.InflectorInt(number)
 
 }
+
+object InflectorImports extends InflectorImports
 
 object Inflector extends Inflector {
 
@@ -110,7 +111,6 @@ object Inflector extends Inflector {
     def camelize = Inflector.camelize(word)
     def pascalize = Inflector.pascalize(word)
     def underscore = Inflector.underscore(word)
-    def capitalize = Inflector.capitalize(word)
     def uncapitalize = Inflector.uncapitalize(word)
     def ordinalize = Inflector.ordinalize(word)
     def pluralize = Inflector.pluralize(word)
