@@ -7,8 +7,7 @@ import org.specs2.execute.Result
 
 class InflectorSpec extends Specification with DataTables { def is =
   "The inflector should" ^
-    "capitalize a string"   ! capitalization ^
-    "dasherize a string"    ! dasherization ^
+   "dasherize a string"    ! dasherization ^
     "humanize a string"     ! humanization ^
     "ordinalize a string"   ! stringOrdinalization ^
     "ordinalize an int"     ! intOrdinalization ^
@@ -19,17 +18,6 @@ class InflectorSpec extends Specification with DataTables { def is =
     "underscore a string"   ! underscoring ^
     "pluralize a string"    ! pluralization ^
     "singularize a string"  ! singularization ^ end
-
-  def capitalization = {
-    "source"               || "expected"             |
-    "some title"           !! "Some title"           |
-    "SOMETITLE"            !! "Sometitle"            |
-    "someTitle"            !! "Sometitle"            |
-    "some title goes here" !! "Some title goes here" |
-    "some TITLE"           !! "Some title"           |> {
-      (source, target) => Inflector.capitalize(source) must_== target
-    }
-  }
 
   def dasherization = {
     "source"                 || "target"                 |
