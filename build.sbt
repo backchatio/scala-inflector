@@ -1,5 +1,3 @@
-import com.github.oforero.sbtformatter.SbtFormatter._
-import com.github.oforero.sbtformatter.SbtFormatterSettings._
 
 name := "scala-inflector"
 
@@ -33,15 +31,4 @@ publishTo <<= (version) { version: String =>
   else                                   Some("releases" at nexus+"releases/")
 }
 
-seq( formatterPreferences : _*) 
-
-seq( 
-  indentLocalDefs := false,
-  spaceBeforeColon := false,
-  spaceInsideBrackets := false,
-  spaceInsideParentheses := false,
-  preserveDanglingCloseParenthesis := false,
-  compactStringConcatenation := false
-) 
-
-seq( formatterTasks : _* )
+seq( ScalariformPlugin.settings : _*) 
