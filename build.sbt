@@ -10,12 +10,14 @@ scalaVersion := "2.9.1"
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies ++= Seq(
-  "org.specs2" % "specs2_2.9.0-1" % "1.5" % "test"
+  "org.specs2" %% "specs2" % "1.6-SNAPSHOT" % "test"
 )
 
 libraryDependencies ++= Seq(
   compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
 )
+
+resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
 
