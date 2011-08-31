@@ -3,6 +3,7 @@ package mojolly.inflector
 import java.util.Locale.ENGLISH
 import scala.Some
 import annotation.tailrec
+import scala.util.matching.Regex
 
 trait Inflector {
 
@@ -92,6 +93,11 @@ trait Inflector {
   }
   def addUncountable(word: String) = uncountables ::= word
 
+  def interpolate(text: String, vars: Map[String, String]) =
+    """\#\{([^}]+)\}""".r.replaceAllIn(text, (_: Regex.Match) match {
+      case Regex.Groups(v) => vars.getOrElse(v, "")
+    })
+
 }
 
 trait InflectorImports {
@@ -115,6 +121,7 @@ object Inflector extends Inflector {
     def ordinalize = Inflector.ordinalize(word)
     def pluralize = Inflector.pluralize(word)
     def singularize = Inflector.singularize(word)
+    def fill(values: (String, String)*) = Inflector.interpolate(word, Map(values: _*))
   }
 
   class InflectorInt(number: Int) {

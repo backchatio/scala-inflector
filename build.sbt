@@ -1,16 +1,16 @@
 
 name := "scala-inflector"
 
-version := "1.1"
+version := "1.3-SNAPSHOT"
 
 organization := "com.mojolly.inflector"
 
-scalaVersion := "2.9.0-1"
+scalaVersion := "2.9.1"
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2" % "1.5" % "test"
+  "org.specs2" % "specs2_2.9.0-1" % "1.5" % "test"
 )
 
 libraryDependencies ++= Seq(
