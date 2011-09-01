@@ -21,6 +21,8 @@ resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
 
+crossScalaVersions := Seq("2.9.1", "2.9.0-1")
+
 parallelExecution in Test := false
 
 testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
