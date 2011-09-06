@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 libraryDependencies <+= (scalaVersion) {
   case "2.9.0-1" => "org.specs2" %% "specs2" % "1.5" % "test"
-  case _ => "org.specs2" %% "specs2" % "1.6" % "test"
+  case _ => "org.specs2" %% "specs2" % "1.6.1" % "test"
 }
 
 libraryDependencies ++= Seq(
