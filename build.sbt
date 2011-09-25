@@ -18,6 +18,8 @@ libraryDependencies ++= Seq(
   compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
 )
 
+
+
 resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
@@ -30,10 +32,12 @@ testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".scala_tools_credentials")
 
+//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
 publishTo <<= (version) { version: String =>
   val nexus = "http://nexus.scala-tools.org/content/repositories/"
   if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus+"snapshots/") 
   else                                   Some("releases" at nexus+"releases/")
 }
 
-seq( ScalariformPlugin.settings : _*) 
+seq(com.typesafe.sbtscalariform.ScalariformPlugin.settings: _*)
