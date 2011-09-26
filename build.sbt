@@ -1,7 +1,7 @@
 
 name := "scala-inflector"
 
-version := "1.3-SNAPSHOT"
+version := "1.3.1-SNAPSHOT"
 
 organization := "com.mojolly.inflector"
 
