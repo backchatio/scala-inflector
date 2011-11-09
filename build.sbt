@@ -15,7 +15,8 @@ libraryDependencies <+= (scalaVersion) {
 }
 
 libraryDependencies ++= Seq(
-  compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
+  compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7"),
+  "junit" % "junit" % "4.10"
 )
 
 
