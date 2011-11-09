@@ -3,12 +3,13 @@ package mojolly.inflector
 import java.util.Locale.ENGLISH
 import scala.Some
 import annotation.tailrec
+import scala.util.matching.Regex
 
 trait Inflector {
 
   def titleize(word: String): String =
     """\b([a-z])""".r.replaceAllIn(humanize(underscore(word)), _.group(0).toUpperCase(ENGLISH))
-  def humanize(word: String): String = capitalize(underscore(word).replace("_", " "))
+  def humanize(word: String): String = capitalize(word.replace("_", " "))
   def camelize(word: String): String = {
     val w = pascalize(word)
     w.substring(0, 1).toLowerCase(ENGLISH) + w.substring(1)
@@ -92,6 +93,11 @@ trait Inflector {
   }
   def addUncountable(word: String) = uncountables ::= word
 
+  def interpolate(text: String, vars: Map[String, String]) =
+    """\#\{([^}]+)\}""".r.replaceAllIn(text, (_: Regex.Match) match {
+      case Regex.Groups(v) => vars.getOrElse(v, "")
+    })
+
 }
 
 trait InflectorImports {
@@ -115,6 +121,7 @@ object Inflector extends Inflector {
     def ordinalize = Inflector.ordinalize(word)
     def pluralize = Inflector.pluralize(word)
     def singularize = Inflector.singularize(word)
+    def fill(values: (String, String)*) = Inflector.interpolate(word, Map(values: _*))
   }
 
   class InflectorInt(number: Int) {
