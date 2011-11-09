@@ -41,3 +41,10 @@ publishTo <<= (version) { version: String =>
 }
 
 seq(com.typesafe.sbtscalariform.ScalariformPlugin.settings: _*)
+
+testOptions := Seq(
+        Tests.Argument("console", "junitxml"))
+        
+testOptions <+= crossTarget map { ct =>
+  Tests.Setup { () => System.setProperty("specs2.junit.outDir", new File(ct, "specs-reports").getAbsolutePath) }
+}
