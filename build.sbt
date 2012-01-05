@@ -31,10 +31,6 @@ parallelExecution in Test := false
 
 testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".scala_tools_credentials")
-
-//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
 publishTo <<= (version) { version: String =>
   val nexus = "http://nexus.scala-tools.org/content/repositories/"
   if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus+"snapshots/") 
