@@ -1,3 +1,4 @@
+import scalariform.formatter.preferences._
 
 name := "scala-inflector"
 
@@ -19,6 +20,15 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.10"
 )
 
+seq(scalariformSettings: _*)
+
+ScalariformKeys.preferences := (FormattingPreferences()
+       setPreference(IndentSpaces, 2)
+       setPreference(AlignParameters, true)
+       setPreference(AlignSingleLineCaseStatements, true)
+       setPreference(DoubleIndentClassDeclaration, true)
+       setPreference(RewriteArrowSymbols, true)
+       setPreference(PreserveSpaceBeforeArguments, true))
 
 
 resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"

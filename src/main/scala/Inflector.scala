@@ -95,7 +95,7 @@ trait Inflector {
 
   def interpolate(text: String, vars: Map[String, String]) =
     """\#\{([^}]+)\}""".r.replaceAllIn(text, (_: Regex.Match) match {
-      case Regex.Groups(v) => vars.getOrElse(v, "")
+      case Regex.Groups(v) ⇒ vars.getOrElse(v, "")
     })
 
 }
