@@ -19,8 +19,6 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.10"
 )
 
-
-
 resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
@@ -37,11 +35,11 @@ publishTo <<= (version) { version: String =>
   else                                   Some("releases" at nexus+"releases/")
 }
 
-seq(com.typesafe.sbtscalariform.ScalariformPlugin.settings: _*)
-
 testOptions := Seq(
         Tests.Argument("console", "junitxml"))
         
 testOptions <+= crossTarget map { ct =>
   Tests.Setup { () => System.setProperty("specs2.junit.outDir", new File(ct, "specs-reports").getAbsolutePath) }
 }
+
+exportJars := true
