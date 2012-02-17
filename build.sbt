@@ -2,7 +2,7 @@ import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.2-SNAPSHOT"
+version := "1.3.3-SNAPSHOT"
 
 organization := "io.backchat.inflector"
 
@@ -12,7 +12,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 libraryDependencies <+= (scalaVersion) {
   case "2.9.0-1" => "org.specs2" %% "specs2" % "1.5" % "test"
-  case _ => "org.specs2" %% "specs2" % "1.6.1" % "test"
+  case _ => "org.specs2" %% "specs2" % "1.8.1" % "test"
 }
 
 libraryDependencies ++= Seq(
