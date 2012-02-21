@@ -12,7 +12,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 libraryDependencies <+= (scalaVersion) {
   case "2.9.0-1" => "org.specs2" %% "specs2" % "1.5" % "test"
-  case _ => "org.specs2" %% "specs2" % "1.8.1" % "test"
+  case _ => "org.specs2" %% "specs2" % "1.8.2" % "test"
 }
 
 libraryDependencies ++= Seq(
@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.10" % "test"
 )
 
-resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
+// resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
 
