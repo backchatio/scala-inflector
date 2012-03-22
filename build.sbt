@@ -1,10 +1,10 @@
-import scalariform.formatter.preferences._
+import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.1-SNAPSHOT"
+version := "1.3.3-SNAPSHOT"
 
-organization := "com.mojolly.inflector"
+organization := "io.backchat.inflector"
 
 scalaVersion := "2.9.1"
 
@@ -12,26 +12,13 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 libraryDependencies <+= (scalaVersion) {
   case "2.9.0-1" => "org.specs2" %% "specs2" % "1.5" % "test"
-  case _ => "org.specs2" %% "specs2" % "1.6.1" % "test"
+  case _ => "org.specs2" %% "specs2" % "1.8.2" % "test"
 }
 
 libraryDependencies ++= Seq(
   compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7"),
-  "junit" % "junit" % "4.10"
+  "junit" % "junit" % "4.10" % "test"
 )
-
-seq(scalariformSettings: _*)
-
-ScalariformKeys.preferences := (FormattingPreferences()
-       setPreference(IndentSpaces, 2)
-       setPreference(AlignParameters, true)
-       setPreference(AlignSingleLineCaseStatements, true)
-       setPreference(DoubleIndentClassDeclaration, true)
-       setPreference(RewriteArrowSymbols, true)
-       setPreference(PreserveSpaceBeforeArguments, true))
-
-
-resolvers += "ScalaTools Snapshots" at "http://scala-tools.org/repo-snapshots"
 
 autoCompilerPlugins := true
 
@@ -41,17 +28,57 @@ parallelExecution in Test := false
 
 testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".scala_tools_credentials")
+homepage := Some(url("https://github.com/mojolly/scala-inflector"))
 
-//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+startYear := Some(2010)
 
-publishTo <<= (version) { version: String =>
-  val nexus = "http://nexus.scala-tools.org/content/repositories/"
-  if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus+"snapshots/") 
-  else                                   Some("releases" at nexus+"releases/")
+licenses := Seq(("MIT", url("http://github.com/mojolly/scala-inflector/raw/HEAD/LICENSE")))
+
+pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
+  <scm>
+    <connection>scm:git:git://github.com/mojolly/scala-inflector.git</connection>
+    <developerConnection>scm:git:git@github.com:mojolly/scala-inflector.git</developerConnection>
+    <url>https://github.com/mojolly/scala-inflector</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>casualjim</id>
+      <name>Ivan Porto Carrero</name>
+      <url>http://flanders.co.nz/</url>
+    </developer>
+  </developers>
+)}
+
+packageOptions <+= (name, version, organization) map {
+    (title, version, vendor) =>
+      Package.ManifestAttributes(
+        "Created-By" -> "Simple Build Tool",
+        "Built-By" -> System.getProperty("user.name"),
+        "Build-Jdk" -> System.getProperty("java.version"),
+        "Specification-Title" -> title,
+        "Specification-Version" -> version,
+        "Specification-Vendor" -> vendor,
+        "Implementation-Title" -> title,
+        "Implementation-Version" -> version,
+        "Implementation-Vendor-Id" -> vendor,
+        "Implementation-Vendor" -> vendor
+      )
+  }
+
+publishMavenStyle := true
+
+publishTo <<= version { (v: String) =>
+  val nexus = "https://oss.sonatype.org/"
+  if (v.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
 
-seq(com.typesafe.sbtscalariform.ScalariformPlugin.settings: _*)
+publishArtifact in Test := false
+
+pomIncludeRepository := { x => false }
+
 
 testOptions := Seq(
         Tests.Argument("console", "junitxml"))
@@ -59,3 +86,5 @@ testOptions := Seq(
 testOptions <+= crossTarget map { ct =>
   Tests.Setup { () => System.setProperty("specs2.junit.outDir", new File(ct, "specs-reports").getAbsolutePath) }
 }
+
+exportJars := true
