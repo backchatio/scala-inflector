@@ -26,8 +26,6 @@ crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.9.2", "2.9.1-1")
 
 parallelExecution in Test := false
 
-testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
-
 homepage := Some(url("https://github.com/mojolly/scala-inflector"))
 
 startYear := Some(2010)
