@@ -12,7 +12,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 libraryDependencies <+= (scalaVersion) {
   case "2.9.0-1" | "2.9.0" => "org.specs2" %% "specs2" % "1.5" % "test"
-  case _ => "org.specs2" % "specs2_2.9.1" % "1.9" % "test"
+  case _ => "org.specs2" % "specs2_2.9.1" % "1.10" % "test"
 }
 
 libraryDependencies ++= Seq(
@@ -26,17 +26,17 @@ crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.9.2", "2.9.1-1")
 
 parallelExecution in Test := false
 
-homepage := Some(url("https://github.com/mojolly/scala-inflector"))
+homepage := Some(url("https://github.com/backchatio/scala-inflector"))
 
 startYear := Some(2010)
 
-licenses := Seq(("MIT", url("http://github.com/mojolly/scala-inflector/raw/HEAD/LICENSE")))
+licenses := Seq(("MIT", url("http://github.com/backchatio/scala-inflector/raw/HEAD/LICENSE")))
 
 pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
   <scm>
-    <connection>scm:git:git://github.com/mojolly/scala-inflector.git</connection>
-    <developerConnection>scm:git:git@github.com:mojolly/scala-inflector.git</developerConnection>
-    <url>https://github.com/mojolly/scala-inflector</url>
+    <connection>scm:git:git://github.com/backchatio/scala-inflector.git</connection>
+    <developerConnection>scm:git:git@github.com:backchatio/scala-inflector.git</developerConnection>
+    <url>https://github.com/backchatio/scala-inflector</url>
   </scm>
   <developers>
     <developer>
