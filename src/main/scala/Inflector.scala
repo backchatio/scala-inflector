@@ -74,6 +74,7 @@ trait Inflector {
   private def applyRules(collection: List[Rule], word: String): String = {
     if (uncountables.contains(word.toLowerCase(ENGLISH))) word
     else {
+      if (collection.isEmpty) return word
       val m = collection.head(word)
       if (m.isDefined) m.get // using getOrElse doesn't allow for @tailrec optimization
       else applyRules(collection.tail, word)

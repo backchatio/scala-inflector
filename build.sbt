@@ -2,7 +2,7 @@ import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.4-SNAPSHOT"
+version := "1.3.4-matygo"
 
 organization := "io.backchat.inflector"
 
