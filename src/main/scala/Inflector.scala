@@ -29,6 +29,7 @@ trait Inflector {
         firstPattern.replaceAllIn(
           word, replacementPattern), replacementPattern), "_").toLowerCase
   }
+
   def capitalize(word: String): String =
     word.substring(0, 1).toUpperCase(ENGLISH) + word.substring(1).toLowerCase(ENGLISH)
   def uncapitalize(word: String): String =
@@ -117,6 +118,7 @@ object Inflector extends Inflector {
     def camelize = Inflector.camelize(word)
     def pascalize = Inflector.pascalize(word)
     def underscore = Inflector.underscore(word)
+    def dasherize = Inflector.dasherize(word)
     def uncapitalize = Inflector.uncapitalize(word)
     def ordinalize = Inflector.ordinalize(word)
     def pluralize = Inflector.pluralize(word)
