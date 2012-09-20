@@ -11,6 +11,7 @@ scalaVersion := "2.9.2"
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies <+= (scalaVersion) {
+  case "2.10.0-M7" => "org.specs2" % "specs2_2.10.0-M7" % "1.12.1.1" % "test"
   case "2.9.0-1" | "2.9.0" => "org.specs2" %% "specs2" % "1.5" % "test"
   case _ => "org.specs2" % "specs2_2.9.1" % "1.12" % "test"
 }
@@ -22,7 +23,7 @@ libraryDependencies ++= Seq(
 
 autoCompilerPlugins := true
 
-crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.9.2", "2.9.1-1")
+crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.9.2", "2.9.1-1", "2.10.0-M7")
 
 parallelExecution in Test := false
 
