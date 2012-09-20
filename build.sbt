@@ -8,6 +8,8 @@ organization := "io.backchat.inflector"
 
 scalaVersion := "2.9.2"
 
+crossVersion := CrossVersion.full
+
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies <+= (scalaVersion) {
