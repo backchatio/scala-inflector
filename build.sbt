@@ -2,7 +2,7 @@ import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.5-SNAPSHOT"
+version := "1.3.5"
 
 organization := "io.backchat.inflector"
 
@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
 
 autoCompilerPlugins := true
 
-crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.9.2", "2.9.1-1", "2.10.0-M7")
+crossScalaVersions := Seq("2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.0-M7")
 
 parallelExecution in Test := false
 
