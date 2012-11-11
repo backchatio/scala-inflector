@@ -13,7 +13,7 @@ crossVersion := CrossVersion.full
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies <+= (scalaVersion) {
-  case "2.10.0-RC1" => "org.specs2" % "specs2_2.10.0-RC1" % "1.12.2" % "test"
+  case "2.10.0-RC2" => "org.specs2" % "specs2_2.10.0-RC2" % "1.12.2" % "test"
   case "2.9.2" | "2.9.1" | "2.9.1-1" => "org.specs2" %% "specs2" % "1.12.2" % "test"
   case "2.9.0-1" => "org.specs2" %% "specs2" % "1.8.2" % "test"
   case "2.9.0" => "org.specs2" %% "specs2" % "1.7.1" % "test"
@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
 
 autoCompilerPlugins := true
 
-crossScalaVersions := Seq("2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.0-RC1")
+crossScalaVersions := Seq("2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.0-RC2")
 
 parallelExecution in Test := false
 
