@@ -2,23 +2,19 @@ import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.5"
+version := "1.3.6-SNAPSHOT"
 
 organization := "io.backchat.inflector"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.11.0"
 
 crossVersion := CrossVersion.binary
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
 libraryDependencies <+= (scalaVersion) {
-  case v if v.startsWith("2.1") => "org.specs2" %% "specs2" % "2.3.11" % "test"
-  case "2.9.2" | "2.9.3" => "org.specs2" %% "specs2" % "1.12.4.1" % "test"
-  case "2.9.1" | "2.9.1-1" => "org.specs2" %% "specs2" % "1.12.4" % "test"
-  case "2.9.0-1" => "org.specs2" %% "specs2" % "1.8.2" % "test"
-  case "2.9.0" => "org.specs2" %% "specs2" % "1.7.1" % "test"
-  case _ => "org.specs2" %% "specs2" % "1.5" % "test"
+  case v if v.startsWith("2.12") => "org.specs2" %% "specs2-core" % "3.8.5" % "test"
+  case _ => "org.specs2" %% "specs2" % "2.3.11" % "test"
 }
 
 libraryDependencies ++= Seq(
@@ -28,7 +24,7 @@ libraryDependencies ++= Seq(
 
 autoCompilerPlugins := true
 
-crossScalaVersions := Seq("2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.11.0")
+crossScalaVersions := Seq("2.11.0", "2.12.0-RC1")
 
 parallelExecution in Test := false
 
@@ -84,12 +80,5 @@ publishArtifact in Test := false
 pomIncludeRepository := { x => false }
 
 resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
-testOptions := Seq(
-        Tests.Argument("console", "junitxml"))
-        
-testOptions <+= crossTarget map { ct =>
-  Tests.Setup { () => System.setProperty("specs2.junit.outDir", new File(ct, "specs-reports").getAbsolutePath) }
-}
 
 exportJars := true
