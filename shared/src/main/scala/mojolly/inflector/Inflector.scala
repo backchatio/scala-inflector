@@ -1,23 +1,22 @@
 package mojolly.inflector
 
-import java.util.Locale.ENGLISH
-import scala.Some
-import annotation.tailrec
+import scala.annotation.tailrec
 import scala.util.matching.Regex
+import Util.{ucase, lcase}
 
 trait Inflector {
 
   def titleize(word: String): String =
-    """\b([a-z])""".r.replaceAllIn(humanize(underscore(word)), _.group(0).toUpperCase(ENGLISH))
+    """\b([a-z])""".r.replaceAllIn(humanize(underscore(word)), m => ucase(m.group(0)))
   def humanize(word: String): String = capitalize(word.replace("_", " "))
   def camelize(word: String): String = {
     val w = pascalize(word)
-    w.substring(0, 1).toLowerCase(ENGLISH) + w.substring(1)
+    w.substring(0, 1).toLowerCase() + w.substring(1)
   }
   def pascalize(word: String): String = {
     val lst = word.split("_").toList
-    (lst.headOption.map(s ⇒ s.substring(0, 1).toUpperCase(ENGLISH) + s.substring(1)).get ::
-      lst.tail.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1))).mkString("")
+    (lst.headOption.map(s ⇒ ucase(s.substring(0, 1)) + s.substring(1)).get ::
+      lst.tail.map(s ⇒ ucase(s.substring(0, 1)) + s.substring(1))).mkString("")
   }
   def underscore(word: String): String = {
     val spacesPattern = "[-\\s]".r
@@ -31,9 +30,9 @@ trait Inflector {
   }
 
   def capitalize(word: String): String =
-    word.substring(0, 1).toUpperCase(ENGLISH) + word.substring(1).toLowerCase(ENGLISH)
+    ucase(word.substring(0, 1)) + lcase(word.substring(1))
   def uncapitalize(word: String): String =
-    word.substring(0, 1).toLowerCase(ENGLISH) + word.substring(1)
+    lcase(word.substring(0, 1)) + word.substring(1)
   def ordinalize(word: String): String = ordanize(word.toInt, word)
   def ordinalize(number: Int): String = ordanize(number, number.toString)
   private def ordanize(number: Int, numberString: String) = {
@@ -73,7 +72,7 @@ trait Inflector {
 
   @tailrec
   private def applyRules(collection: List[Rule], word: String): String = {
-    if (uncountables.contains(word.toLowerCase(ENGLISH))) word
+    if (uncountables.contains(lcase(word))) word
     else {
       if (collection.isEmpty) return word
       val m = collection.head(word)
@@ -140,11 +139,12 @@ object Inflector extends Inflector {
   addPlural("(buffal|tomat|volcan)o$", "$1oes")
   addPlural("([ti])um$", "$1a")
   addPlural("sis$", "ses")
-  addPlural("(?:([^f])fe|([lr])f)$", "$1$2ves")
+  addPlural("([^f])fe$", "$1ves")
+  addPlural("([lr])f$", "$1ves")
   addPlural("(hive)$", "$1s")
   addPlural("([^aeiouy]|qu)y$", "$1ies")
   addPlural("(x|ch|ss|sh)$", "$1es")
-  addPlural("(matr|vert|ind)ix|ex$", "$1ices")
+  addPlural("(matr|vert|ind)(ix|ex)$", "$1ices")
   addPlural("([m|l])ouse$", "$1ice")
   addPlural("^(ox)$", "$1en")
   addPlural("(quiz)$", "$1zes")
@@ -152,7 +152,7 @@ object Inflector extends Inflector {
   addSingular("s$", "")
   addSingular("(n)ews$", "$1ews")
   addSingular("([ti])a$", "$1um")
-  addSingular("((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$", "$1$2sis")
+  addSingular("(analy|ba|diagno|parenthe|progno|synop|the)ses$", "$1sis")
   addSingular("(^analy)ses$", "$1sis")
   addSingular("([^f])ves$", "$1fe")
   addSingular("(hive)s$", "$1")

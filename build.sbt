@@ -1,84 +1,62 @@
-import scala.xml._
+organization in Global := "io.backchat.inflector"
+homepage in Global := Some(url("https://github.com/backchatio/scala-inflector"))
+startYear in Global := Some(2010)
+licenses in Global := Seq(("MIT", url("http://github.com/backchatio/scala-inflector/raw/HEAD/LICENSE")))
 
-name := "scala-inflector"
+version in Global := "1.3.6-SNAPSHOT"
 
-version := "1.3.6-SNAPSHOT"
+scalaVersion in Global := "2.12.0"
+crossScalaVersions in Global := Seq(scalaVersion.value, "2.11.8")
 
-organization := "io.backchat.inflector"
+scalacOptions in Global ++= Seq("-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
+scalacOptions in Global ++= (if (scalaVersion.value startsWith "2.12.") Seq("-opt:_") else Seq("-optimize"))
 
-scalaVersion := "2.11.0"
+resolvers in Global += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-crossVersion := CrossVersion.binary
+lazy val root = project.in(file("."))
+  .aggregate(scalaInflectorJVM, scalaInflectorJS)
+  .settings(publish := (), publishLocal := (), publishArtifact := false)
 
-scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
+lazy val scalaInflector = crossProject.in(file("."))
+  .settings(
+    name := "scala-inflector",
+    libraryDependencies ++= Seq("org.scalatest" %%% "scalatest" % "3.0.1" % "test"),
+    pomExtra := (
+      <scm>
+        <connection>scm:git:git://github.com/backchatio/scala-inflector.git</connection>
+        <developerConnection>scm:git:git@github.com:backchatio/scala-inflector.git</developerConnection>
+        <url>https://github.com/backchatio/scala-inflector</url>
+      </scm>
+        <developers>
+          <developer>
+            <id>casualjim</id>
+            <name>Ivan Porto Carrero</name>
+            <url>http://flanders.co.nz/</url>
+          </developer>
+        </developers>),
+    packageOptions += Package.ManifestAttributes(
+      "Created-By" -> "Simple Build Tool",
+      "Built-By" -> System.getProperty("user.name"),
+      "Build-Jdk" -> System.getProperty("java.version"),
+      "Specification-Title" -> name.value,
+      "Specification-Version" -> version.value,
+      "Specification-Vendor" -> organization.value,
+      "Implementation-Title" -> name.value,
+      "Implementation-Version" -> version.value,
+      "Implementation-Vendor-Id" -> organization.value,
+      "Implementation-Vendor" -> organization.value),
+    publishMavenStyle := true,
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
+    publishArtifact in Test := false,
+    pomIncludeRepository := { x => false },
+    exportJars := true)
 
-libraryDependencies <+= (scalaVersion) {
-  case v if v.startsWith("2.12") => "org.specs2" %% "specs2-core" % "3.8.5" % "test"
-  case _ => "org.specs2" %% "specs2" % "2.3.11" % "test"
-}
+lazy val scalaInflectorJVM = scalaInflector.jvm
+lazy val scalaInflectorJS = scalaInflector.js
 
-libraryDependencies ++= Seq(
-  // compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7"),
-  "junit" % "junit" % "4.10" % "test"
-)
-
-autoCompilerPlugins := true
-
-crossScalaVersions := Seq("2.11.0", "2.12.0-RC1")
-
-parallelExecution in Test := false
-
-homepage := Some(url("https://github.com/backchatio/scala-inflector"))
-
-startYear := Some(2010)
-
-licenses := Seq(("MIT", url("http://github.com/backchatio/scala-inflector/raw/HEAD/LICENSE")))
-
-pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
-  <scm>
-    <connection>scm:git:git://github.com/backchatio/scala-inflector.git</connection>
-    <developerConnection>scm:git:git@github.com:backchatio/scala-inflector.git</developerConnection>
-    <url>https://github.com/backchatio/scala-inflector</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>casualjim</id>
-      <name>Ivan Porto Carrero</name>
-      <url>http://flanders.co.nz/</url>
-    </developer>
-  </developers>
-)}
-
-packageOptions <+= (name, version, organization) map {
-    (title, version, vendor) =>
-      Package.ManifestAttributes(
-        "Created-By" -> "Simple Build Tool",
-        "Built-By" -> System.getProperty("user.name"),
-        "Build-Jdk" -> System.getProperty("java.version"),
-        "Specification-Title" -> title,
-        "Specification-Version" -> version,
-        "Specification-Vendor" -> vendor,
-        "Implementation-Title" -> title,
-        "Implementation-Version" -> version,
-        "Implementation-Vendor-Id" -> vendor,
-        "Implementation-Vendor" -> vendor
-      )
-  }
-
-publishMavenStyle := true
-
-publishTo <<= version { (v: String) =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-}
-
-publishArtifact in Test := false
-
-pomIncludeRepository := { x => false }
-
-resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
-exportJars := true
