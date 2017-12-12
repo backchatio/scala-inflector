@@ -13,12 +13,17 @@ trait Inflector {
   def humanize(word: String): String = capitalize(word.replace("_", " "))
   def camelize(word: String): String = {
     val w = pascalize(word)
-    w.substring(0, 1).toLowerCase(ENGLISH) + w.substring(1)
+    w.take(1).toLowerCase(ENGLISH) + w.slice(1, w.length)
   }
   def pascalize(word: String): String = {
-    val lst = word.split("_").toList
-    (lst.headOption.map(s ⇒ s.substring(0, 1).toUpperCase(ENGLISH) + s.substring(1)).get ::
-      lst.tail.map(s ⇒ s.substring(0, 1).toUpperCase + s.substring(1))).mkString("")
+    word.split('_').toList.filterNot(_.isEmpty) match {
+      case Nil ⇒ ""
+      case h :: t ⇒ (
+          h.take(1).toUpperCase(ENGLISH) ::
+          h.slice(1, h.length) ::
+          t.map(s ⇒ s.take(1).toUpperCase + s.slice(1, s.length))
+        ).mkString("")
+    }
   }
   def underscore(word: String): String = {
     val spacesPattern = "[-\\s]".r
@@ -32,9 +37,9 @@ trait Inflector {
   }
 
   def capitalize(word: String): String =
-    word.substring(0, 1).toUpperCase(ENGLISH) + word.substring(1).toLowerCase(ENGLISH)
+    word.take(1).toUpperCase(ENGLISH) + word.slice(1, word.length).toLowerCase(ENGLISH)
   def uncapitalize(word: String): String =
-    word.substring(0, 1).toLowerCase(ENGLISH) + word.substring(1)
+    word.take(1).toLowerCase(ENGLISH) + word.slice(1, word.length)
   def ordinalize(word: String): String = ordanize(word.toInt, word)
   def ordinalize(number: Int): String = ordanize(number, number.toString)
   private def ordanize(number: Int, numberString: String) = {
@@ -91,8 +96,8 @@ trait Inflector {
   def addPlural(pattern: String, replacement: String) { plurals ::= pattern -> replacement }
   def addSingular(pattern: String, replacement: String) { singulars ::= pattern -> replacement }
   def addIrregular(singular: String, plural: String) {
-    plurals ::= (("(" + singular(0) + ")" + singular.substring(1) + "$") -> ("$1" + plural.substring(1)))
-    singulars ::= (("(" + plural(0) + ")" + plural.substring(1) + "$") -> ("$1" + singular.substring(1)))
+    plurals ::= (("(" + singular(0) + ")" + singular.slice(1, singular.length) + "$") -> ("$1" + plural.slice(1, plural.length)))
+    singulars ::= (("(" + plural(0) + ")" + plural.slice(1, plural.length) + "$") -> ("$1" + singular.slice(1, singular.length)))
   }
   def addUncountable(word: String) = uncountables ::= word
 

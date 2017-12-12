@@ -21,6 +21,7 @@ class InflectorSpec extends Specification with DataTables {
 
   def dasherization = {
     "source" || "target" |
+      "" !! "" |
       "some_title" !! "some-title" |
       "some-title" !! "some-title" |
       "some_title_goes_here" !! "some-title-goes-here" |
@@ -31,6 +32,7 @@ class InflectorSpec extends Specification with DataTables {
 
   def humanization = {
     "source" || "target" |
+      "" !! "" |
       "some_title" !! "Some title" |
       "some-title" !! "Some-title" |
       "someTitle" !! "Sometitle" |
@@ -109,11 +111,15 @@ class InflectorSpec extends Specification with DataTables {
 
   def pascalization = {
     "source" || "target" |
+      "" !! "" |
+      "_" !! "" |
+      "__" !! "" |
       "customer" !! "Customer" |
       "CUSTOMER" !! "CUSTOMER" |
       "CUStomer" !! "CUStomer" |
       "customer_name" !! "CustomerName" |
       "customer_first_name" !! "CustomerFirstName" |
+      "customer__first_name" !! "CustomerFirstName" |
       "customer_first_name_goes_here" !! "CustomerFirstNameGoesHere" |
       "customer name" !! "Customer name" |> { (src, tgt) ⇒
         Inflector.pascalize(src) must_== tgt
@@ -122,11 +128,15 @@ class InflectorSpec extends Specification with DataTables {
 
   def camelization = {
     "source" || "target" |
+      "" !! "" |
+      "_" !! "" |
+      "__" !! "" |
       "customer" !! "customer" |
       "CUSTOMER" !! "cUSTOMER" |
       "CUStomer" !! "cUStomer" |
       "customer_name" !! "customerName" |
       "customer_first_name" !! "customerFirstName" |
+      "customer__first_name" !! "customerFirstName" |
       "customer_first_name_goes_here" !! "customerFirstNameGoesHere" |
       "customer name" !! "customer name" |> { (src, tgt) ⇒
         Inflector.camelize(src) must_== tgt
@@ -135,6 +145,7 @@ class InflectorSpec extends Specification with DataTables {
 
   def titleization = {
     "source" || "target" |
+      "" !! "" |
       "some title" !! "Some Title" |
       "some title" !! "Some Title" |
       "sometitle" !! "Sometitle" |
@@ -147,6 +158,7 @@ class InflectorSpec extends Specification with DataTables {
 
   def uncapitalization = {
     "source" || "target" |
+      "" !! "" |
       "some title" !! "some title" |
       "some Title" !! "some Title" |
       "SOMETITLE" !! "sOMETITLE" |
@@ -159,6 +171,7 @@ class InflectorSpec extends Specification with DataTables {
 
   def underscoring = {
     "source" || "target" |
+      "" !! "" |
       "SomeTitle" !! "some_title" |
       "some title" !! "some_title" |
       "some title that will be underscored" !! "some_title_that_will_be_underscored" |
