@@ -2,18 +2,23 @@ import scala.xml._
 
 name := "scala-inflector"
 
-version := "1.3.6-SNAPSHOT"
+version := "1.3.6"
 
 organization := "io.backchat.inflector"
 
-scalaVersion := "2.11.0"
+scalaVersion := "2.12.4"
+crossScalaVersions := Seq("2.11.11", "2.12.4")
 
 crossVersion := CrossVersion.binary
 
-scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
+scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
+
+scalacOptions := scalacOptions.value :+ Option(scalaVersion.value).filter(_.startsWith("2.12"))
+  .map(v => "-opt:l:method")
+  .getOrElse("-optimize")
 
 libraryDependencies <+= (scalaVersion) {
-  case v if v.startsWith("2.12") => "org.specs2" %% "specs2-core" % "3.8.5" % "test"
+  case v if v.startsWith("2.12") => "org.specs2" %% "specs2-core" % "3.9.5" % "test"
   case _ => "org.specs2" %% "specs2" % "2.3.11" % "test"
 }
 
@@ -23,8 +28,6 @@ libraryDependencies ++= Seq(
 )
 
 autoCompilerPlugins := true
-
-crossScalaVersions := Seq("2.11.0", "2.12.0-RC1")
 
 parallelExecution in Test := false
 

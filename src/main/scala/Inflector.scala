@@ -3,6 +3,7 @@ package mojolly.inflector
 import java.util.Locale.ENGLISH
 import scala.Some
 import annotation.tailrec
+import scala.language.implicitConversions
 import scala.util.matching.Regex
 
 trait Inflector {

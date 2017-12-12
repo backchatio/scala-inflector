@@ -24,7 +24,7 @@ import mojolly.inflector.InflectorImports._ // this is also a trait
 This library is published to maven-central.
 
 ```scala
-libraryDependencies += "io.backchat.inflector" %% "scala-inflector" % "1.3.4"
+libraryDependencies += "io.backchat.inflector" %% "scala-inflector" % "1.3.6"
 ```
 
 ## Patches
